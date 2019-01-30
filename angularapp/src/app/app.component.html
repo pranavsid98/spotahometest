@@ -1,20 +1,63 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<h1>Data Visualization</h1>
+<br>
 
+<div *ngIf="!receivedData">
+  Fetching Data. Please wait until it loads.
+</div>
+
+<div *ngIf="receivedData">
+  <div *ngIf="noData">
+    No Data available. Press Refresh to fetch from remote source.
+    <br><br>
+    <a href="#" (click)="refreshData()">Refresh Data (Click to retrieve from remote source again)</a>
+    <br><br>
+  </div>
+  <div *ngIf="!noData">
+    <a href="#" (click)="downloadJson()">Download Data (as JSON)</a>
+    <br><br>
+    <a href="#" (click)="refreshData()">Refresh Data (Click to retrieve from remote source again)</a>
+    <br><br>
+    <span class="label">Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</span> <br><br>
+    <table class="table disp-table">
+      <thead>
+        <tr>
+          <th>
+            <a href="#" (click)="updateOrderField('id_num')">
+              ID Number <span *ngIf="orderByField == 'id_num'"><span *ngIf="!reverseSort">^</span><span *ngIf="reverseSort">v</span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" (click)="updateOrderField('title')">
+              Title <span *ngIf="orderByField == 'title'"><span *ngIf="!reverseSort">^</span><span *ngIf="reverseSort">v</span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" (click)="updateOrderField('link')">
+              Link <span *ngIf="orderByField == 'link'"><span *ngIf="!reverseSort">^</span><span *ngIf="reverseSort">v</span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" (click)="updateOrderField('city')">
+              City <span *ngIf="orderByField == 'city'"><span *ngIf="!reverseSort">^</span><span *ngIf="reverseSort">v</span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" (click)="updateOrderField('main_image')">
+              Main Image <span *ngIf="orderByField == 'main_image'"><span *ngIf="!reverseSort">^</span><span *ngIf="reverseSort">v</span></span>
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let point of sortData(orderByField)">
+          <td>{{point.id_num}}</td>
+          <td>{{point.title}}</td>
+          <td><a href="{{point.link}}">{{point.link}}</a></td>
+          <td>{{point.city}}</td>
+          <td><a href="{{point.main_image}}">{{point.main_image}}</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
